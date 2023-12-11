@@ -67,7 +67,6 @@ class MenuTab:
     def __init__(self):
         self.stop_thread = False
         self.config = ManagerInfoUser.load_config()
-        self.menu_interface = None
 
         self.menu()
 
@@ -84,7 +83,7 @@ class MenuTab:
         choice = input("Enter your choice (1-4): ")
 
         if choice == "1":
-            SendTab().to_tab()
+            SendTab()
         elif choice == "2":
             EmailView.run_received_tab()
         elif choice == "3":
@@ -109,5 +108,5 @@ class MenuTab:
                 ManagerInfoUser.delete_config_file()
                 break
 
-if __name__ == "__main__":
-    console_menu = MenuTab()
+#if __name__ == "__main__":
+#    console_menu = MenuTab()

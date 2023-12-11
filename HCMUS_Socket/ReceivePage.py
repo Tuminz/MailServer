@@ -152,12 +152,12 @@ from manageInfo import ManagerInfoUser
     #     root.mainloop()
     
 
-CONFIG_FILE = "config.json"
-HEADER = 1024
-SAVE_FOLDER = "Emails"
-FORMAT = 'utf-8'
-NOTICE = b"Content-Disposition: attachment"
-FOLDER_LIST = ["Inbox", "Project", "Important", "Work", "Spam"]
+#CONFIG_FILE = "config.json"
+#HEADER = 1024
+#SAVE_FOLDER = "Emails"
+#FORMAT = 'utf-8'
+#NOTICE = b"Content-Disposition: attachment"
+#FOLDER_LIST = ["Inbox", "Project", "Important", "Work", "Spam"]
 
 class EmailView:
     def __init__(self):

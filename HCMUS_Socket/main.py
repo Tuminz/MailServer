@@ -1,4 +1,4 @@
-from LoginPage import LoginTab
+﻿from LoginPage import LoginTab
 
 def main():
     login_tab = LoginTab()
@@ -6,3 +6,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    

@@ -127,8 +127,8 @@ import socket
 import json
 import time
 
-CONFIG_FILE = "config.json"
-HEADER = 1024
+#CONFIG_FILE = "config.json"
+#HEADER = 1024
 
 class LoginTab:
     def __init__(self):
@@ -174,45 +174,55 @@ class LoginTab:
             print("No connection could be made because the target machine actively refused it! (POP3)")
         except Exception as e:
             print(f"An unexpected error occurred (POP3): {e}")
-    
+   
+
     def checker(self):
+        try:
+            smtp = int(self.entry_SMTP_PORT.strip())
+            pop3 = int(self.entry_POP3_PORT.strip())
+        except ValueError as e:
+            #@Messagebox.show_error(f"Ports must be integers: {e}", "Connection Error")
+            print("Ports must be integers. Please input again!")
+            return
+
         if self.check_create_connection_to_server_to_smtp() and self.check_create_connection_to_server_to_pop3():
             self.save_config()
             print("Configuration saved successfully.")
-            # Uncomment the line below if you want to continue to MenuTab
             menu_tab = MenuTab()
-            menu_tab.memu()
 
     def save_config(self):
         config = {
-            "NAME": input("Enter your username: ").strip(),
-            "EMAIL": input("Enter your email: ").strip(),
-            "PASSWORD": input("Enter your password: ").strip(),
-            "SERVER": input("Enter your server: ").strip(),
-            "SMTP_PORT": input("Enter your SMTP port: ").strip(),
-            "POP3_PORT": input("Enter your POP3 port: ").strip(),
+            "NAME": self.entry_username.strip(),
+            "EMAIL": self.entry_email.strip(),
+            "PASSWORD": self.entry_password.strip(),
+            "SERVER": self.entry_server.strip(),
+            "SMTP_PORT": self.entry_SMTP_PORT.strip(),
+            "POP3_PORT": self.entry_POP3_PORT.strip(),
             "AUTOLOAD": self.auto_load
         }
         with open(CONFIG_FILE, "w") as file:
             json.dump(config, file)
 
     def create_menu_login(self):
+        check = False;
         print("LOGIN")
         print("1. Enter your information")
         print("2. Exit")
-
+        
         choice = input("Enter your choice (1-2): ")
 
         if choice == "1":
-            self.entry_username = input("Enter your username: ")
-            self.entry_email = input("Enter your email: ")
-            self.entry_password = input("Enter your password: ")
-            self.entry_server = input("Enter your server: ")
-            self.entry_SMTP_PORT = input("Enter your SMTP port: ")
-            self.entry_POP3_PORT = input("Enter your POP3 port: ")
-            self.checker()
+            while check == False:
+                self.entry_username = input("Enter your username: ")
+                self.entry_email = input("Enter your email: ")
+                self.entry_password = input("Enter your password: ")
+                self.entry_server = input("Enter your server: ")
+                self.entry_SMTP_PORT = input("Enter your SMTP port: ")
+                self.entry_POP3_PORT = input("Enter your POP3 port: ")
+                check = self.checker()
         elif choice == "2":
             print("Exiting...")
+            exit()
         else:
             print("Invalid choice. Please enter a number between 1 and 2.")
 
