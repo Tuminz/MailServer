@@ -85,9 +85,11 @@ class MenuTab:
         if choice == "1":
             SendTab()
         elif choice == "2":
-            EmailView.run_received_tab()
+            email_view = EmailView()
+            email_view.run_received_tab()
         elif choice == "3":
-            EmailView.download_tab()
+            email_view = EmailView()
+            email_view.download_tab()
         elif choice == "4":
             self.press_exit()
         else:
@@ -103,7 +105,9 @@ class MenuTab:
             time.sleep(1)
             counter += 1
             if not self.stop_thread and counter % int(self.config['AUTOLOAD']) == 0:
-                EmailView.download_tab()
+                #EmailView.download_tab()
+                email_view = EmailView()
+                email_view.download_tab()
             elif self.stop_thread:
                 ManagerInfoUser.delete_config_file()
                 break

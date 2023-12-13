@@ -100,6 +100,7 @@ class EmailSender:
     @staticmethod
     def send_header(server_socket, From, Type_to, Type_cc, Type_bcc):
         config = ManagerInfoUser.load_config()
+        print("HELOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
         server_socket.send(f"EHLO [{config['SERVER']}]\r\n".encode())
         response = server_socket.recv(HEADER).decode()
         if not response.startswith('250'):

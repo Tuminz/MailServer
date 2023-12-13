@@ -152,12 +152,12 @@ from manageInfo import ManagerInfoUser
     #     root.mainloop()
     
 
-#CONFIG_FILE = "config.json"
-#HEADER = 1024
-#SAVE_FOLDER = "Emails"
-#FORMAT = 'utf-8'
-#NOTICE = b"Content-Disposition: attachment"
-#FOLDER_LIST = ["Inbox", "Project", "Important", "Work", "Spam"]
+# CONFIG_FILE = "config.json"
+# HEADER = 1024
+# SAVE_FOLDER = "Emails"
+# FORMAT = 'utf-8'
+# NOTICE = b"Content-Disposition: attachment"
+# FOLDER_LIST = ["Inbox", "Project", "Important", "Work", "Spam"]
 
 class EmailView:
     def __init__(self):
@@ -201,7 +201,7 @@ class EmailView:
                 encoded_data = base64.b64decode(attachment_data)
                 attachment_file.write(encoded_data)
         
-        new_win.destroy()
+        
 
     def show_mail(self, response, sender, subject, content, email_id, folder):
         EmailManager.update_status_of_mail(email_id, self.emails_list)
@@ -244,8 +244,9 @@ class EmailView:
         email_id = input("Enter the ID of the email to view (press Enter to exit): ").strip()
         if email_id == "":
             return
-
+        
         for email in self.emails_list:
+
             if email['mes_id'] == email_id and email['folder'] == folder_name:
                 folder_path = self.path_to_sub_folder(folder_name)
                 file_name = f"{email['sender']}, {email['mes_id']}"

@@ -79,6 +79,7 @@ class SendTab:
 
         key = keyboard.read_key()
         if key == "1":
+            print("111")
             EmailClient_Send.run_send_mail_program(to, cc, bcc, subject, content, self.filename_list)
         if key == "2":
             print("")
