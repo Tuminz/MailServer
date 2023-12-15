@@ -86,10 +86,11 @@ class MenuTab:
             SendTab()
         elif choice == "2":
             email_view = EmailView()
-            email_view.run_received_tab()
-        elif choice == "3":
-            email_view = EmailView()
             email_view.download_tab()
+            email_view.run_received_tab()
+        #elif choice == "3":
+            #email_view = EmailView()
+            
         elif choice == "4":
             self.press_exit()
         else:
@@ -108,6 +109,7 @@ class MenuTab:
                 #EmailView.download_tab()
                 email_view = EmailView()
                 email_view.download_tab()
+                email_view.run_received_tab()
             elif self.stop_thread:
                 ManagerInfoUser.delete_config_file()
                 break
