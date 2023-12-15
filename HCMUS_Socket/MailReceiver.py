@@ -11,6 +11,7 @@ class EmailGetter:
     
     @staticmethod
     def get_sender(response):
+        sender = ""
         lines = response.splitlines()[1:]
         for line in lines:
             if line.strip().startswith('From: '):
@@ -22,6 +23,7 @@ class EmailGetter:
     
     @staticmethod
     def get_subject_email(response):        
+        subject = ""
         lines = response.splitlines()[1:]
         for line in lines:
             if line.strip().startswith("Subject: "):
@@ -119,6 +121,7 @@ class EmailFilter:
     @staticmethod
     def create_filter_folder():
         config = ManagerInfoUser.load_config()
+        #print("CREATE FILTER FOLDER")
         if not os.path.exists(f"{SAVE_FOLDER}_{config['EMAIL']}"):
             os.makedirs(f"{SAVE_FOLDER}_{config['EMAIL']}")
 
@@ -132,6 +135,7 @@ class EmailFilter:
         filter_config = EmailFilter.load_filter_config()
 
         sender = EmailGetter.get_sender(response)
+        #print("Get_sender: ", sender)
         subject = EmailGetter.get_subject_email(response)
         content = EmailGetter.get_email_content(response)
 
@@ -140,6 +144,7 @@ class EmailFilter:
             if any(word.lower() in subject.strip().lower() or word.lower() in content.strip().lower() for word in keywords):
                 return folder
             elif any(word.lower() == sender.strip().lower() for word in keywords):
+                #print("Return folder:", folder)
                 return folder
             elif any(word.lower() in subject.strip().lower() for word in keywords):
                 return folder

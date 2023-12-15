@@ -161,7 +161,7 @@ from manageInfo import ManagerInfoUser
 
 class EmailView:
     def __init__(self):
-        self.emails_list = []
+        self.email_list = []
         self.root = None
 
     def path_to_sub_folder(self, folder_name):
@@ -204,7 +204,7 @@ class EmailView:
         
 
     def show_mail(self, response, sender, subject, content, email_id, folder):
-        EmailManager.update_status_of_mail(email_id, self.emails_list)
+        EmailManager.update_status_of_mail(email_id, self.email_list)
 
         print(f"From: {sender}")
         print(f"Subject: {subject}")
@@ -216,14 +216,14 @@ class EmailView:
                 self.save_attachments(response, email_id, folder, None)
 
         selected_item = input("Press Enter to return to the main menu.")
-        self.emails_list = EmailShow.show_download_mail()
+        self.email_list = EmailShow.show_download_mail()
     
     def download_tab(self):
         EmailFilter.create_filter_folder()
         EmailDownloader.download_emails_pop3()
 
     def run_received_tab(self):
-        self.emails_list = EmailShow.show_download_mail()
+        self.email_list = EmailShow.show_download_mail()
 
         print("Folders:")
         for folder in FOLDER_LIST:
@@ -237,15 +237,22 @@ class EmailView:
             print("Invalid folder name.")
             return
 
-        for email in self.emails_list:
+        for email in self.email_list:
             if email['folder'] == folder_name:
                 print(f"{email['sender']}, {email['mes_id']}, {email['status']}")
+
+        #@if len(self.email_list) <= 0:
+        #    print("No mail is found!")
+        #    return
+        #else:
+        #    print(len(self.email_list))
+       
 
         email_id = input("Enter the ID of the email to view (press Enter to exit): ").strip()
         if email_id == "":
             return
         
-        for email in self.emails_list:
+        for email in self.email_list:
 
             if email['mes_id'] == email_id and email['folder'] == folder_name:
                 folder_path = self.path_to_sub_folder(folder_name)

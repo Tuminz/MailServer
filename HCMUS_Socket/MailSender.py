@@ -100,7 +100,6 @@ class EmailSender:
     @staticmethod
     def send_header(server_socket, From, Type_to, Type_cc, Type_bcc):
         config = ManagerInfoUser.load_config()
-        print("HELOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
         server_socket.send(f"EHLO [{config['SERVER']}]\r\n".encode())
         response = server_socket.recv(HEADER).decode()
         if not response.startswith('250'):
@@ -163,6 +162,7 @@ class EmailSender:
         response = server_socket.recv(HEADER).decode()
         if not response.startswith('250'):
                 raise Exception(f"Error sending email: {response}")
+        #print("Email sent successfully.")
 
     @staticmethod
     def send_content_of_attached_mail(email_data, server_socket, content):
@@ -219,6 +219,7 @@ class EmailSender:
         response = server_socket.recv(HEADER).decode()
         if not response.startswith('250'):
                 raise Exception(f"Error sending email: {response}")
+       # print("Email sent successfully.")
     
 class EmailClient_Send: 
     def send_email_bcc(From, Bcc, subject, content, attach_files):

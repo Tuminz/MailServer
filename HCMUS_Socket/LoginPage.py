@@ -177,17 +177,12 @@ class LoginTab:
    
 
     def checker(self):
-        try:
-            smtp = int(self.entry_SMTP_PORT.strip())
-            pop3 = int(self.entry_POP3_PORT.strip())
-        except ValueError as e:
-            #@Messagebox.show_error(f"Ports must be integers: {e}", "Connection Error")
-            print("Ports must be integers. Please input again!")
-            return
-
+        print("Waiting for connection...")
         if self.check_create_connection_to_server_to_smtp() and self.check_create_connection_to_server_to_pop3():
             self.save_config()
+            print("Connected successfully.")
             print("Configuration saved successfully.")
+            time.sleep(1)
             menu_tab = MenuTab()
 
     def save_config(self):
@@ -210,15 +205,34 @@ class LoginTab:
         print("2. Exit")
         
         choice = input("Enter your choice (1-2): ")
-
+        clear_screen()
         if choice == "1":
             while check == False:
                 self.entry_username = input("Enter your username: ")
-                self.entry_email = input("Enter your email: ")
+
+                while True:
+                    self.entry_email = input("Enter your email: ")
+                    if '@' in self.entry_email:
+                        break
+                    else: 
+                        print("Invalid email. Please try again!")
+
                 self.entry_password = input("Enter your password: ")
                 self.entry_server = input("Enter your server: ")
-                self.entry_SMTP_PORT = input("Enter your SMTP port: ")
-                self.entry_POP3_PORT = input("Enter your POP3 port: ")
+
+                while True:
+                    self.entry_SMTP_PORT = input("Enter your SMTP port: ")
+                    if self.entry_SMTP_PORT.isdigit():
+                        break 
+                    else: 
+                        print("Invalid SMTP port. Please enter an integer.")
+                while True:
+                    self.entry_POP3_PORT = input("Enter your POP3 port: ")
+
+                    if self.entry_POP3_PORT.isdigit():
+                        break
+                    else:
+                        print("Invalid POP3 port. Please enter an integer.")
                 check = self.checker()
         elif choice == "2":
             print("Exiting...")

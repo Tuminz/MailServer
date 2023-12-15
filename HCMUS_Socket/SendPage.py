@@ -11,7 +11,7 @@ from tkinter.filedialog import askopenfilename
 class SendTab:
     def __init__(self):
         self.filename_list = []
-        self.to_tab()
+        #self.to_tab()
         self.send_tab = None
 
     def open(self):
@@ -34,7 +34,8 @@ class SendTab:
         #self.my_label_attached_file.config(text=filenames_with_newlines)
 
     def to_tab(self):
-        print("To input more than one address, please use comma to seperate!")
+        clear_screen()
+        print("To input more than one address, please use comma to separate!")
         to = input("TO: ").strip()
         cc = input("CC: ").strip()
         bcc = input("BCC: ").strip()
@@ -79,15 +80,16 @@ class SendTab:
 
         key = keyboard.read_key()
         if key == "1":
-            print("111")
+            print("Sending email...")
             EmailClient_Send.run_send_mail_program(to, cc, bcc, subject, content, self.filename_list)
+            input("Press any key to back to main menu...")
         if key == "2":
-            print("")
+            self.menu()
         if key == "3":
-            print("")
+            EmailClient_Send.run_send_mail_program(to, cc, bcc, subject, content, self.filename_list)
+            self.menu()
         if key == "4":
-            print("")
+            self.press_exit()
 
-def clear_screen():
-    print("\033c", end="")
+
 

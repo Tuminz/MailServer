@@ -67,13 +67,12 @@ class MenuTab:
     def __init__(self):
         self.stop_thread = False
         self.config = ManagerInfoUser.load_config()
-
-        self.menu()
-
         self.time_counter_thread = threading.Thread(target=self.run_time_counter_to_download)
         self.time_counter_thread.start()
+        self.menu()
 
     def menu(self):
+        clear_screen()
         print("MENU")
         print("1. SEND EMAIL")
         print("2. ALL RECEIVED MAIL")
@@ -83,7 +82,8 @@ class MenuTab:
         choice = input("Enter your choice (1-4): ")
 
         if choice == "1":
-            SendTab()
+            email_send = SendTab()
+            email_send.to_tab()
         elif choice == "2":
             email_view = EmailView()
             email_view.run_received_tab()
@@ -94,6 +94,8 @@ class MenuTab:
             self.press_exit()
         else:
             print("Invalid choice. Please enter a number between 1 and 4.")
+
+        
 
     def press_exit(self):
         self.stop_thread = True

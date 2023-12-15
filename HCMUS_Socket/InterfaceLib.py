@@ -6,6 +6,7 @@ import ttkbootstrap as tb
 from ttkbootstrap import Style
 from ttkbootstrap.scrolled import ScrolledText
 from ttkbootstrap.dialogs import Messagebox
+import time
 
 HEADER = 1024
 
@@ -15,3 +16,6 @@ window_size = str(window_width) + 'x' + str(window_height)
 color = "primary"
 font_interface = 'GOUDY STOUT'
 font_type = 'Arial Greek'
+
+def clear_screen():
+    print("\033c", end="")
