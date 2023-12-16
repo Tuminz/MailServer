@@ -3,7 +3,7 @@ from LibraryAndUtils import*
 import keyboard
 import sys
 from tkinter import Tk
-from tkinter.filedialog import askopenfilename
+from tkinter.filedialog import askopenfilenames
 
 #---- SEND TAB
 class SendEmail:
@@ -15,14 +15,20 @@ class SendEmail:
     def attach_file(self):
         root = Tk()
         root.withdraw()
-        filename = askopenfilename()
-        
-        if filename:
-            file_size = os.path.getsize(filename) / (1024**2)
+        filenames = askopenfilenames()
+        file_size = 0
+
+        if filenames:
+            for file in filenames:
+                file_size += os.path.getsize(file) / (1024**2)
             if file_size <= 3:
-                print(filename)
-                self.attachment_list.append(filename + '  ')
-                self.update_label_to()
+                for file in filenames:
+                    print(file)
+                    self.attachment_list.append(file + '  ')
+                    self.update_label_to()   
+            else:
+                print("Exceed the maximum size. Cannot attach files!")
+            
 
     def update_label_to(self):
         filenames = ''.join(self.attachment_list)
