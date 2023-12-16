@@ -1,6 +1,6 @@
 from SendPage import SendEmail
 from ReceivePage import ViewEmail
-from manageInfo import ManangeUserInfo
+from ManageInfo import ManangeUserInfo
 from LibraryAndUtils import *
 import threading
 import time

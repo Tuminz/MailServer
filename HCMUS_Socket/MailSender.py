@@ -1,5 +1,5 @@
 from LibraryAndUtils import *
-from manageInfo import ManangeUserInfo
+from ManageInfo import ManangeUserInfo
 
 class MessageInfo:
     @staticmethod

@@ -1,6 +1,6 @@
 from LibraryAndUtils import *
 from MailReceiver import EmailShow, EmailGetter, EmailManager, EmailDownloader, EmailFilter
-from manageInfo import ManangeUserInfo
+from ManageInfo import ManangeUserInfo
 
 class ViewEmail:
     def __init__(self):
@@ -80,14 +80,7 @@ class ViewEmail:
 
         for email in self.email_list:
             if email['folder'] == folder_name:
-                print(f"{email['sender']}, {email['mes_id']}, {email['status']}")
-
-        #@if len(self.email_list) <= 0:
-        #    print("No mail is found!")
-        #    return
-        #else:
-        #    print(len(self.email_list))
-       
+                print(f"{email['sender']}, {email['mes_id']}, {email['status']}")       
 
         email_id = input("Enter the ID of the email to view (press Enter to exit): ").strip()
         if email_id == "":

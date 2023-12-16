@@ -5,7 +5,6 @@ import sys
 from tkinter import Tk
 from tkinter.filedialog import askopenfilenames
 
-#---- SEND TAB
 class SendEmail:
     def __init__(self):
         self.attachment_list = []
@@ -16,18 +15,16 @@ class SendEmail:
         root = Tk()
         root.withdraw()
         filenames = askopenfilenames()
-        file_size = 0
 
         if filenames:
             for file in filenames:
-                file_size += os.path.getsize(file) / (1024**2)
-            if file_size <= 3:
-                for file in filenames:
+                file_size_in_mb = os.path.getsize(file) / (1024 * 1024)
+                if file_size_in_mb <= 3:
                     print(file)
                     self.attachment_list.append(file + '  ')
                     self.update_label_to()   
-            else:
-                print("Exceed the maximum size. Cannot attach files!")
+                else:
+                    print("Exceed the maximum size. Cannot attach files!")
             
 
     def update_label_to(self):
