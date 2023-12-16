@@ -74,6 +74,7 @@ class MenuTab:
             self.time_counter_thread.start()
 
     def menu(self):
+        clear_screen()
         print("MENU")
         print("1. SEND EMAIL")
         print("2. VIEW MAIL")

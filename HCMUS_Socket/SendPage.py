@@ -74,22 +74,17 @@ class SendTab:
 
         print("")
         print("Press 1 to send email.")
-        print("Press 2 to compose again.")
-        print("Press 3 to send and compose another email.")
-        print("Press ESC to back to the main screen.")
+        print("Press ESC to back to the main menu.")
 
-        key = keyboard.read_key()
-        if key == "1":
-            print("Sending email...")
-            EmailClient_Send.run_send_mail_program(to, cc, bcc, subject, content, self.filename_list)
-            input("Press any key to back to main menu...")
-        if key == "2":#@fix this
-            self.menu()
-        if key == "3":
-            EmailClient_Send.run_send_mail_program(to, cc, bcc, subject, content, self.filename_list)
-            self.menu()
-        if key == "4":
-            self.press_exit()
+        while True:
+            key = keyboard.read_key()
+            if key == "1":
+                print("Sending email...")
+                EmailClient_Send.run_send_mail_program(to, cc, bcc, subject, content, self.filename_list)
+                input("Press any key to back to main menu...")
+                break
+            elif key == 'esc':
+                break
 
 
 
