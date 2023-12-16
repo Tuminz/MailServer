@@ -1,6 +1,7 @@
 from InterfaceLib import *
 from SendPage import SendTab
 from ReceivePage import EmailView
+from keyboard import send
 from manageInfo import ManagerInfoUser
 import threading
 import time
@@ -67,8 +68,15 @@ class MenuTab:
     def __init__(self):
         self.stop_thread = False
         self.config = ManagerInfoUser.load_config()
+<<<<<<< Updated upstream
 
         self.menu()
+=======
+        while True:
+            self.menu()
+            self.time_counter_thread = threading.Thread(target=self.run_time_counter_to_download)
+            self.time_counter_thread.start()
+>>>>>>> Stashed changes
 
         self.time_counter_thread = threading.Thread(target=self.run_time_counter_to_download)
         self.time_counter_thread.start()
@@ -76,9 +84,8 @@ class MenuTab:
     def menu(self):
         print("MENU")
         print("1. SEND EMAIL")
-        print("2. ALL RECEIVED MAIL")
-        print("3. DOWNLOAD MAIL")
-        print("4. EXIT")
+        print("2. VIEW MAIL")
+        print("3. EXIT")
 
         choice = input("Enter your choice (1-4): ")
 
@@ -91,7 +98,11 @@ class MenuTab:
         #elif choice == "3":
             #email_view = EmailView()
             
+<<<<<<< Updated upstream
         elif choice == "4":
+=======
+        elif choice == "3":
+>>>>>>> Stashed changes
             self.press_exit()
         else:
             print("Invalid choice. Please enter a number between 1 and 4.")
@@ -106,10 +117,13 @@ class MenuTab:
             time.sleep(1)
             counter += 1
             if not self.stop_thread and counter % int(self.config['AUTOLOAD']) == 0:
-                #EmailView.download_tab()
                 email_view = EmailView()
                 email_view.download_tab()
+<<<<<<< Updated upstream
                 email_view.run_received_tab()
+=======
+                #email_view.run_received_tab()
+>>>>>>> Stashed changes
             elif self.stop_thread:
                 ManagerInfoUser.delete_config_file()
                 break

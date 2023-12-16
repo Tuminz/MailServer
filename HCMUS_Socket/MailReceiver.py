@@ -188,6 +188,7 @@ class EmailManager:
         if matching_emails: 
             for matching_email in matching_emails:
                 matching_email['status'] = "read"
+                EmailManager.update_all_mail(emails_list)
 
 class EmailShow:
     @staticmethod
