@@ -1,4 +1,4 @@
-from Library import *
+from LibraryAndUtils import *
 from manageInfo import ManangeUserInfo
 
 class EmailGetter:

@@ -1,5 +1,4 @@
-
-from Library import *
+from LibraryAndUtils import *
 from MailReceiver import EmailShow, EmailGetter, EmailManager, EmailDownloader, EmailFilter
 from manageInfo import ManangeUserInfo
 

@@ -1,6 +1,5 @@
-﻿
-from MailSender import ClientSendEmail
-from Library import os
+﻿from MailSender import ClientSendEmail
+from LibraryAndUtils import*
 import keyboard
 import sys
 from tkinter import Tk

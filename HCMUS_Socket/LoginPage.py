@@ -1,4 +1,4 @@
-from Library import *
+from LibraryAndUtils import *
 from Menu import MainMenu
 
 class Login:

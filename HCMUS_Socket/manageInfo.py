@@ -1,4 +1,4 @@
-from Library import os, json, CONFIG_FILE
+from LibraryAndUtils import os, json, CONFIG_FILE
 
 class ManangeUserInfo:
     @staticmethod

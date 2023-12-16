@@ -1,8 +1,7 @@
-
-from InterfaceLib import clear_screen
 from SendPage import SendEmail
 from ReceivePage import ViewEmail
 from manageInfo import ManangeUserInfo
+from LibraryAndUtils import *
 import threading
 import time
 
