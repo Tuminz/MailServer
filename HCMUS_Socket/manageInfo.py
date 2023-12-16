@@ -1,6 +1,6 @@
-from MailLib import os, json, CONFIG_FILE
+from Library import os, json, CONFIG_FILE
 
-class ManagerInfoUser:
+class ManangeUserInfo:
     @staticmethod
     def load_config():
         try:

@@ -1,47 +1,46 @@
-from MailLib import *
-from manageInfo import ManagerInfoUser
-from InterfaceLib import Messagebox
+from Library import *
+from manageInfo import ManangeUserInfo
 
-class EmailSendInfo:
+class MessageInfo:
     @staticmethod
-    def get_email_to(mails_address_to, to_email):
+    def get_to_addresses(mails_address_to, to_email):
         if to_email is not None:
             to_email = to_email.split(',')
             To = [email.strip() for email in to_email]
             mails_address_to.extend(To)
     
     @staticmethod
-    def get_email_cc(mails_address_cc, cc_email):
+    def get_cc_addresses(mails_address_cc, cc_email):
         if cc_email is not None:
             cc_email = cc_email.split(',')
             Cc = [email.strip() for email in cc_email]
             mails_address_cc.extend(Cc)
     
     @staticmethod
-    def get_email_bcc(mails_address_bcc, bcc_email):
+    def get_bcc_addresses(mails_address_bcc, bcc_email):
         if bcc_email is not None:
             bcc_email = bcc_email.split(',')
             Bcc = [email.strip() for email in bcc_email]
             mails_address_bcc.extend(Bcc)
     
     @staticmethod
-    def get_attached_file(entry_filename):
-        if entry_filename == ['']:
+    def get_attached_file(input_filename):
+        if input_filename == ['']:
             return []
         else:
-            return entry_filename
+            return input_filename
     
     @staticmethod
     def generate_message_id():
         return str(uuid.uuid4())
     
     @staticmethod
-    def take_domain(From):
+    def get_domain(From):
         return '@' + From.split('@')[1]
 
     @staticmethod
     def encode_user_name():
-        config = ManagerInfoUser.load_config()
+        config = ManangeUserInfo.load_config()
         encoded_name = base64.b64encode(config['NAME'].encode()).decode()
         return f'=?UTF-8?B?{encoded_name}?='
 
@@ -62,35 +61,35 @@ class EmailEncoder:
                 return attachment_header + file_content_with_newlines + "\r\n\r\n"
 
     @staticmethod       
-    def attach_txt_in_email(file_path):
+    def attach_txt_file(file_path):
         if os.path.exists(file_path):
             return EmailEncoder.encode_and_header_attach_file(file_path, CONTENT_TXT)
         else:
             return ""
     
     @staticmethod
-    def attach_docx_in_email(file_path):
+    def attach_docx_file(file_path):
         if os.path.exists(file_path):
             return EmailEncoder.encode_and_header_attach_file(file_path, CONTENT_DOCX)
         else:
             return ""
 
     @staticmethod
-    def attach_pdf_in_email(file_path):
+    def attach_pdf_file(file_path):
         if os.path.exists(file_path):
             return EmailEncoder.encode_and_header_attach_file(file_path, CONTENT_PDF)
         else:
             return ""
     
     @staticmethod
-    def attach_image_in_email(file_path):
+    def attach_image_file(file_path):
         if os.path.exists(file_path):
             return EmailEncoder.encode_and_header_attach_file(file_path, CONTENT_JPG)
         else:
             return ""
 
     @staticmethod
-    def attach_zip_in_email( file_path):
+    def attach_zip_file( file_path):
         if os.path.exists(file_path):
             return EmailEncoder.encode_and_header_attach_file(file_path, CONTENT_ZIP)
         else:
@@ -99,7 +98,7 @@ class EmailEncoder:
 class EmailSender:
     @staticmethod
     def send_header(server_socket, From, Type_to, Type_cc, Type_bcc):
-        config = ManagerInfoUser.load_config()
+        config = ManangeUserInfo.load_config()
         server_socket.send(f"EHLO [{config['SERVER']}]\r\n".encode())
         response = server_socket.recv(HEADER).decode()
         if not response.startswith('250'):
@@ -138,7 +137,7 @@ class EmailSender:
     
     @staticmethod
     def send_header_normal_mail(server_socket, From):
-        message_id = '<' + EmailSendInfo.generate_message_id() + EmailSendInfo.take_domain(From) + '>'
+        message_id = '<' + MessageInfo.generate_message_id() + MessageInfo.get_domain(From) + '>'
         server_socket.send(f"Message-ID: {message_id}\r\n".encode())
 
         current_time = datetime.now()
@@ -162,7 +161,7 @@ class EmailSender:
         response = server_socket.recv(HEADER).decode()
         if not response.startswith('250'):
                 raise Exception(f"Error sending email: {response}")
-        #print("Email sent successfully.")
+        print("Email sent successfully.")
 
     @staticmethod
     def send_content_of_attached_mail(email_data, server_socket, content):
@@ -173,30 +172,30 @@ class EmailSender:
     @staticmethod
     def send_txt_file(server_socket, email_data, file, content):
         EmailSender.send_content_of_attached_mail(email_data, server_socket, content)
-        server_socket.send(f"{EmailEncoder.attach_txt_in_email(file)}".encode())    
+        server_socket.send(f"{EmailEncoder.attach_txt_file(file)}".encode())    
     
     @staticmethod
     def send_docx_file(server_socket, email_data, file, content):
         EmailSender.send_content_of_attached_mail(email_data, server_socket, content)
-        server_socket.send(f"{EmailEncoder.attach_docx_in_email(file)}".encode())    
+        server_socket.send(f"{EmailEncoder.attach_docx_file(file)}".encode())    
 
     @staticmethod
     def send_pdf_file(server_socket, email_data, file, content):
         EmailSender.send_content_of_attached_mail(email_data, server_socket, content)
-        server_socket.send(f"{EmailEncoder.attach_pdf_in_email(file)}".encode())    
+        server_socket.send(f"{EmailEncoder.attach_pdf_file(file)}".encode())    
 
     @staticmethod
     def send_image_file(server_socket, email_data, file, content):
         EmailSender.send_content_of_attached_mail(email_data, server_socket, content)
-        server_socket.send(f"{EmailEncoder.attach_image_in_email(file)}".encode())    
+        server_socket.send(f"{EmailEncoder.attach_image_file(file)}".encode())    
 
     @staticmethod
     def send_zip_file(server_socket, email_data, file, content):
         EmailSender.send_content_of_attached_mail(email_data, server_socket, content)
-        server_socket.send(f"{EmailEncoder.attach_zip_in_email(file)}".encode())    
+        server_socket.send(f"{EmailEncoder.attach_zip_file(file)}".encode())    
 
     @staticmethod
-    def send_all_file(server_socket, From, attach_files, email_data, content):
+    def send_all_types_of_file(server_socket, From, attach_files, email_data, content):
         EmailSender.send_header_attached_file_mail(server_socket, From)
         for index, file in enumerate(attach_files):
             if file.strip().endswith('.txt'):
@@ -219,13 +218,13 @@ class EmailSender:
         response = server_socket.recv(HEADER).decode()
         if not response.startswith('250'):
                 raise Exception(f"Error sending email: {response}")
-       # print("Email sent successfully.")
+        print("Email sent successfully.")
     
-class EmailClient_Send: 
-    def send_email_bcc(From, Bcc, subject, content, attach_files):
-        config = ManagerInfoUser.load_config()
+class ClientSendEmail: 
+    def send_bcc_email(From, Bcc, subject, content, attach_files):
+        config = ManangeUserInfo.load_config()
         check_attach_file = bool(attach_files)
-        user_name_encode = EmailSendInfo.encode_user_name()
+        user_name_encode = MessageInfo.encode_user_name()
 
         email_data = f"From: {user_name_encode} <{From}>\r\nSubject: {subject}\r\nTo: {BCC_NOTICE}\r\n"
 
@@ -237,7 +236,7 @@ class EmailClient_Send:
             EmailSender.send_header(server_socket, From, [], [], Bcc)
 
             if check_attach_file == True:
-                EmailSender.send_all_file(server_socket, From, attach_files, email_data, content)
+                EmailSender.send_all_types_of_file(server_socket, From, attach_files, email_data, content)
             else:
                 EmailSender.send_header_normal_mail(server_socket, From)
                 EmailSender.send_normal_mail(server_socket, email_data, content)
@@ -245,7 +244,7 @@ class EmailClient_Send:
             server_socket.send("QUIT\r\n".encode())
 
     def send_email(from_address, to_addresses, cc_addresses, bcc_addresses, subject, content, attach_files):
-        config = ManagerInfoUser.load_config()
+        config = ManangeUserInfo.load_config()
         check_attach_file = bool(attach_files)
         email_data = ""
 
@@ -257,10 +256,10 @@ class EmailClient_Send:
             email_data += f"Cc: {cc_address}\r\n"
         
         if not any(email.strip() for email in to_addresses) and not any(email.strip() for email in cc_addresses):
-            EmailClient_Send.send_email_bcc(from_address, bcc_addresses, subject, content, attach_files)
+            ClientSendEmail.send_bcc_email(from_address, bcc_addresses, subject, content, attach_files)
             return
 
-        user_name_encode = EmailSendInfo.encode_user_name()
+        user_name_encode = MessageInfo.encode_user_name()
         
         email_data += f"From: {user_name_encode} <{from_address}>\r\nSubject: {subject}\r\n"
         with socket.create_connection((config['SERVER'], config['SMTP_PORT'])) as server_socket:
@@ -271,7 +270,7 @@ class EmailClient_Send:
             EmailSender.send_header(server_socket, from_address, to_addresses, cc_addresses, bcc_addresses)
             
             if check_attach_file == True:
-                EmailSender.send_all_file(server_socket, from_address, attach_files, email_data, content)
+                EmailSender.send_all_types_of_file(server_socket, from_address, attach_files, email_data, content)
             else:
                 EmailSender.send_header_normal_mail(server_socket, from_address)
                 EmailSender.send_normal_mail(server_socket, email_data, content)
@@ -279,20 +278,20 @@ class EmailClient_Send:
             server_socket.send("QUIT\r\n".encode()) 
 
     @staticmethod
-    def run_send_mail_program(entry_to, entry_cc, entry_bcc, entry_subject, entry_content, entry_filename):
+    def start_sending_process(input_to, input_cc, input_bcc, input_subject, input_content, input_filename):
         mails_address_to = []
         mails_address_cc = []
         mails_address_bcc = [] 
 
-        From = ManagerInfoUser.load_config()['EMAIL']
+        From = ManangeUserInfo.load_config()['EMAIL']
 
-        EmailSendInfo.get_email_to(mails_address_to, entry_to)
-        EmailSendInfo.get_email_cc(mails_address_cc, entry_cc)
-        EmailSendInfo.get_email_bcc(mails_address_bcc, entry_bcc)
+        MessageInfo.get_to_addresses(mails_address_to, input_to)
+        MessageInfo.get_cc_addresses(mails_address_cc, input_cc)
+        MessageInfo.get_bcc_addresses(mails_address_bcc, input_bcc)
     
-        subject = entry_subject
-        content = entry_content
+        subject = input_subject
+        content = input_content
 
-        attach_files_path = EmailSendInfo.get_attached_file(entry_filename)
+        attach_files_path = MessageInfo.get_attached_file(input_filename)
 
-        EmailClient_Send.send_email(From, mails_address_to, mails_address_cc, mails_address_bcc, subject, content, attach_files_path)
+        ClientSendEmail.send_email(From, mails_address_to, mails_address_cc, mails_address_bcc, subject, content, attach_files_path)

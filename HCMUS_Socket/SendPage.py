@@ -1,39 +1,36 @@
-﻿from InterfaceLib import *
-from MailSender import EmailClient_Send
-from MailLib import os
-
+﻿
+from MailSender import ClientSendEmail
+from Library import os
 import keyboard
 import sys
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
 
 #---- SEND TAB
-class SendTab:
+class SendEmail:
     def __init__(self):
-        self.filename_list = []
-        self.to_tab()
+        self.attachment_list = []
+        self.send_email_screen()
         self.send_tab = None
 
-    def open(self):
+    def attach_file(self):
         root = Tk()
         root.withdraw()
-        #@ can change to open more files
         filename = askopenfilename()
         
         if filename:
             file_size = os.path.getsize(filename) / (1024**2)
             if file_size <= 3:
                 print(filename)
-                self.filename_list.append(filename + '  ')
+                self.attachment_list.append(filename + '  ')
                 self.update_label_to()
 
     def update_label_to(self):
-        filenames = ''.join(self.filename_list)
+        filenames = ''.join(self.attachment_list)
         max_display_length = 115
         filenames_with_newlines = '\n'.join([filenames[i:i + max_display_length] for i in range(0, len(filenames), max_display_length)])
-        #self.my_label_attached_file.config(text=filenames_with_newlines)
 
-    def to_tab(self):
+    def send_email_screen(self):
         clear_screen()
         print("To input more than one address, please use comma to separate!")
         to = input("TO: ").strip()
@@ -46,31 +43,7 @@ class SendTab:
         choice = input("ATTACH NEW FILES<Type 1 to attach new files or enter to ignore>: ")
 
         if choice == "1":
-            self.open()
-            #root = Tk()
-            #root.withdraw()
-            #attached_files = askopenfilenames(multiple=True)
-            #print("ATTACHED FILES:")
-            #for file in attached_files:
-            #    print(file)
-
-        #clear_screen()
-        #print("**VERIFY YOUR EMAIL**")
-        #print("TO:")
-        #for addr in to:
-        #    print(addr)
-        #print("CC:", cc)
-        #for addr in cc:
-        #    print(addr)
-        #print("BCC:", bcc)
-        #for addr in bcc:
-        #    print(addr)
-        #print("SUBJECT:", subject)
-        #print("CONTENT:")
-        #print(content)
-        #print("ATTACHED FILES:")
-        #for file in attached_files:
-        #    print(file)
+            self.attach_file()
 
         print("")
         print("Press 1 to send email.")
@@ -80,7 +53,7 @@ class SendTab:
             key = keyboard.read_key()
             if key == "1":
                 print("Sending email...")
-                EmailClient_Send.run_send_mail_program(to, cc, bcc, subject, content, self.filename_list)
+                ClientSendEmail.start_sending_process(to, cc, bcc, subject, content, self.attachment_list)
                 input("Press any key to back to main menu...")
                 break
             elif key == 'esc':

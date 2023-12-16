@@ -1,8 +1,8 @@
-﻿from LoginPage import LoginTab
+﻿from LoginPage import Login
 
 def main():
-    login_tab = LoginTab()
-    login_tab.create_menu_login()
+    login = Login()
+    login.login_menu()
 
 if __name__ == "__main__":
     main()

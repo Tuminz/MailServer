@@ -1,5 +1,5 @@
-from MailLib import *
-from manageInfo import ManagerInfoUser
+from Library import *
+from manageInfo import ManangeUserInfo
 
 class EmailGetter:
     @staticmethod
@@ -55,7 +55,7 @@ class EmailDownloader:
         
     @staticmethod
     def download_email_pop3(server_socket, num_id, email_id):
-        config = ManagerInfoUser.load_config()
+        config = ManangeUserInfo.load_config()
         server_socket.send(f"RETR {num_id}\r\n".encode())
         response = EmailDownloader.receive_all(server_socket).decode()
 
@@ -72,7 +72,7 @@ class EmailDownloader:
     
     @staticmethod
     def download_emails_pop3():
-        config = ManagerInfoUser.load_config()
+        config = ManangeUserInfo.load_config()
         with socket.create_connection((config['SERVER'], config['POP3_PORT'])) as server_socket:
             response = server_socket.recv(HEADER).decode()
             if not response.startswith('+OK Test Mail Server'):
@@ -120,8 +120,7 @@ class EmailFilter:
         
     @staticmethod
     def create_filter_folder():
-        config = ManagerInfoUser.load_config()
-        #print("CREATE FILTER FOLDER")
+        config = ManangeUserInfo.load_config()
         if not os.path.exists(f"{SAVE_FOLDER}_{config['EMAIL']}"):
             os.makedirs(f"{SAVE_FOLDER}_{config['EMAIL']}")
 
@@ -135,7 +134,6 @@ class EmailFilter:
         filter_config = EmailFilter.load_filter_config()
 
         sender = EmailGetter.get_sender(response)
-        #print("Get_sender: ", sender)
         subject = EmailGetter.get_subject_email(response)
         content = EmailGetter.get_email_content(response)
 
@@ -144,7 +142,6 @@ class EmailFilter:
             if any(word.lower() in subject.strip().lower() or word.lower() in content.strip().lower() for word in keywords):
                 return folder
             elif any(word.lower() == sender.strip().lower() for word in keywords):
-                #print("Return folder:", folder)
                 return folder
             elif any(word.lower() in subject.strip().lower() for word in keywords):
                 return folder
@@ -156,7 +153,7 @@ class EmailFilter:
 class EmailManager:
     @staticmethod
     def create_mails_status(sender, email_id, filtered_email):
-        config = ManagerInfoUser.load_config()
+        config = ManangeUserInfo.load_config()
         element = [filtered_email, sender, email_id, "unread"]
         file_path = os.path.join(f"{SAVE_FOLDER}_{config['EMAIL']}", 'list_emails.csv')
 
@@ -177,7 +174,7 @@ class EmailManager:
 
     @staticmethod
     def update_all_mail(email_list):
-        config = ManagerInfoUser.load_config()
+        config = ManangeUserInfo.load_config()
         csv_path = os.path.join(f"{SAVE_FOLDER}_{config['EMAIL']}", "list_emails.csv")
         if os.path.exists(csv_path):
             with open(csv_path, 'w', newline='') as file:
@@ -198,7 +195,7 @@ class EmailManager:
 class EmailShow:
     @staticmethod
     def show_download_mail():
-        config = ManagerInfoUser.load_config()
+        config = ManangeUserInfo.load_config()
         email_list = []
         csv_path = os.path.join(f"{SAVE_FOLDER}_{config['EMAIL']}", "list_emails.csv")
 

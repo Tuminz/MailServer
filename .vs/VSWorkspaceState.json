@@ -1,9 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\HCMUS_Socket",
-    "\\HCMUS_Socket\\SAMPLE_CODE"
+    "\\email_account_t1@gmail.com",
+    "\\saved_emails_he@gmail.com\\INBOX",
+    "\\saved_emails_he@gmail.com\\INBOX\\20231216181836724.msg attachment",
+    "\\saved_emails_l@gmail.com\\INBOX",
+    "\\saved_emails_l@gmail.com\\INBOX\\20231216181634783.msg attachment",
+    "\\saved_emails_t9@gmail.com\\INBOX",
+    "\\saved_emails_t9@gmail.com\\INBOX\\20231212114938049.msg attachment",
+    "\\saved_emails_t9@gmail.com\\INBOX\\20231216180203008.msg attachment",
+    "\\saved_emails_t9@gmail.com\\INBOX\\20231216180522195.msg attachment"
   ],
-  "SelectedNode": "\\HCMUS_Socket\\SendPage.py",
+  "SelectedNode": "\\HCMUS_Socket\\MailSender.py",
   "PreviewInSolutionExplorer": false
 }
