@@ -1,6 +1,7 @@
 from InterfaceLib import *
 from SendPage import SendTab
 from ReceivePage import EmailView
+from keyboard import send
 from manageInfo import ManagerInfoUser
 import threading
 import time
@@ -67,35 +68,31 @@ class MenuTab:
     def __init__(self):
         self.stop_thread = False
         self.config = ManagerInfoUser.load_config()
-        self.time_counter_thread = threading.Thread(target=self.run_time_counter_to_download)
-        self.time_counter_thread.start()
-        self.menu()
+        while True:
+            self.menu()
+            self.time_counter_thread = threading.Thread(target=self.run_time_counter_to_download)
+            self.time_counter_thread.start()
 
     def menu(self):
-        clear_screen()
         print("MENU")
         print("1. SEND EMAIL")
-        print("2. ALL RECEIVED MAIL")
-        print("3. DOWNLOAD MAIL")
-        print("4. EXIT")
+        print("2. VIEW MAIL")
+        print("3. EXIT")
 
         choice = input("Enter your choice (1-4): ")
 
         if choice == "1":
-            email_send = SendTab()
-            email_send.to_tab()
+            SendTab()
         elif choice == "2":
             email_view = EmailView()
-            email_view.run_received_tab()
-        elif choice == "3":
-            email_view = EmailView()
             email_view.download_tab()
-        elif choice == "4":
+            email_view.run_received_tab()
+        #elif choice == "3":
+            #email_view = EmailView()
+        elif choice == "3":
             self.press_exit()
         else:
             print("Invalid choice. Please enter a number between 1 and 4.")
-
-        
 
     def press_exit(self):
         self.stop_thread = True
@@ -107,9 +104,9 @@ class MenuTab:
             time.sleep(1)
             counter += 1
             if not self.stop_thread and counter % int(self.config['AUTOLOAD']) == 0:
-                #EmailView.download_tab()
                 email_view = EmailView()
                 email_view.download_tab()
+                #email_view.run_received_tab()
             elif self.stop_thread:
                 ManagerInfoUser.delete_config_file()
                 break

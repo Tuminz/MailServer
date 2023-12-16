@@ -11,7 +11,7 @@ from tkinter.filedialog import askopenfilename
 class SendTab:
     def __init__(self):
         self.filename_list = []
-        #self.to_tab()
+        self.to_tab()
         self.send_tab = None
 
     def open(self):
@@ -83,7 +83,7 @@ class SendTab:
             print("Sending email...")
             EmailClient_Send.run_send_mail_program(to, cc, bcc, subject, content, self.filename_list)
             input("Press any key to back to main menu...")
-        if key == "2":
+        if key == "2":#@fix this
             self.menu()
         if key == "3":
             EmailClient_Send.run_send_mail_program(to, cc, bcc, subject, content, self.filename_list)
